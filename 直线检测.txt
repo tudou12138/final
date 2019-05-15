@@ -1,0 +1,1265 @@
+%%dbx1.m
+clear;
+clc;
+[data,count]=imread('test1copy.bmp');
+data=rgb2gray(data);
+
+figure(1)
+
+subplot(2,3,1)
+imshow(data);title('test1原图');
+
+data1=edge(data,'Roberts');
+subplot(2,3,2)
+imshow(data1);title('Robert算子边缘检测');
+
+[H1,T1,R1] = hough(data1,'RhoResolution',5);
+subplot(2,3,3)
+imshow(H1,[],'XData',T1,'YData',R1,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P  = houghpeaks(H1,5,'threshold',ceil(0.3*max(H1(:))));
+x = T1(P(:,2)); y = R1(P(:,1));
+plot(x,y,'s','color','white');
+  
+lines = houghlines(data1,T1,R1,P,'FillGap',5,'MinLength',7);
+subplot(2,3,4)
+imshow(data);title('间隔为5'), hold on
+max_len = 0;
+for k = 1:length(lines)
+   xy = [lines(k).point1; lines(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines(k).point1 - lines(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end  
+
+[H2,T2,R2] = hough(data1,'RhoResolution',1);
+subplot(2,3,5)
+imshow(H2,[],'XData',T2,'YData',R2,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P1 = houghpeaks(H2,5,'threshold',ceil(0.3*max(H2(:))));
+x = T2(P1(:,2)); y = R2(P1(:,1));
+plot(x,y,'s','color','white');
+  
+lines1 = houghlines(data1,T2,R2,P1,'FillGap',5,'MinLength',7);
+subplot(2,3,6)
+imshow(data);title('间隔为1'), hold on
+max_len = 0;
+for k = 1:length(lines1)
+   xy = [lines1(k).point1; lines1(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines1(k).point1 - lines1(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end
+
+figure(2)
+subplot(2,3,1)
+imshow(data);title('test1原图');
+
+data2=edge(data,'Sobel');
+subplot(2,3,2)
+imshow(data2);title('Sobel算子边缘检测');
+
+[H3,T3,R3] = hough(data2,'RhoResolution',5);
+subplot(2,3,3)
+imshow(H3,[],'XData',T3,'YData',R3,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P2 = houghpeaks(H3,5,'threshold',ceil(0.3*max(H3(:))));
+x = T3(P2(:,2)); y = R3(P2(:,1));
+plot(x,y,'s','color','white');
+  
+lines2 = houghlines(data2,T3,R3,P2,'FillGap',5,'MinLength',7);
+subplot(2,3,4)
+imshow(data);title('间隔为5'), hold on
+max_len = 0;
+for k = 1:length(lines2)
+   xy = [lines2(k).point1; lines2(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines2(k).point1 - lines2(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end  
+
+[H4,T4,R4] = hough(data2,'RhoResolution',1);
+subplot(2,3,5)
+imshow(H4,[],'XData',T4,'YData',R4,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P3 = houghpeaks(H4,5,'threshold',ceil(0.3*max(H4(:))));
+x = T4(P3(:,2)); y = R4(P3(:,1));
+plot(x,y,'s','color','white');
+  
+lines3 = houghlines(data2,T4,R4,P3,'FillGap',5,'MinLength',7);
+subplot(2,3,6)
+imshow(data);title('间隔为1'), hold on
+max_len = 0;
+for k = 1:length(lines3)
+   xy = [lines3(k).point1; lines3(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines3(k).point1 - lines3(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end
+
+figure(3)
+subplot(2,3,1)
+imshow(data);title('test1原图');
+
+data3=edge(data,'Canny');
+subplot(2,3,2)
+imshow(data3);title('Canny算子边缘检测');
+
+[H5,T5,R5] = hough(data3,'RhoResolution',5);
+subplot(2,3,3)
+imshow(H5,[],'XData',T5,'YData',R5,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P4 = houghpeaks(H5,5,'threshold',ceil(0.3*max(H5(:))));
+x = T5(P4(:,2)); y = R5(P4(:,1));
+plot(x,y,'s','color','white');
+  
+lines4 = houghlines(data3,T5,R5,P4,'FillGap',5,'MinLength',7);
+subplot(2,3,4)
+imshow(data);title('间隔为5'), hold on
+max_len = 0;
+for k = 1:length(lines4)
+   xy = [lines4(k).point1; lines4(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines4(k).point1 - lines4(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end  
+
+[H6,T6,R6] = hough(data3,'RhoResolution',1);
+subplot(2,3,5)
+imshow(H6,[],'XData',T6,'YData',R6,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P5 = houghpeaks(H6,5,'threshold',ceil(0.3*max(H6(:))));
+x = T6(P5(:,2)); y = R6(P5(:,1));
+plot(x,y,'s','color','white');
+  
+lines5 = houghlines(data3,T6,R6,P5,'FillGap',5,'MinLength',7);
+subplot(2,3,6)
+imshow(data);title('间隔为1'), hold on
+max_len = 0;
+for k = 1:length(lines5)
+   xy = [lines5(k).point1; lines5(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines5(k).point1 - lines5(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%dbx2.m
+clear;
+clc;
+[data,count]=imread('test2.png');
+
+
+figure(1)
+
+subplot(2,3,1)
+imshow(data);title('test1原图');
+
+data1=edge(data,'Roberts');
+subplot(2,3,2)
+imshow(data1);title('Robert算子边缘检测');
+
+[H1,T1,R1] = hough(data1,'RhoResolution',5);
+subplot(2,3,3)
+imshow(H1,[],'XData',T1,'YData',R1,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P  = houghpeaks(H1,5,'threshold',ceil(0.3*max(H1(:))));
+x = T1(P(:,2)); y = R1(P(:,1));
+plot(x,y,'s','color','white');
+  
+lines = houghlines(data1,T1,R1,P,'FillGap',5,'MinLength',7);
+subplot(2,3,4)
+imshow(data);title('间隔为5'), hold on
+max_len = 0;
+for k = 1:length(lines)
+   xy = [lines(k).point1; lines(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines(k).point1 - lines(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end  
+
+[H2,T2,R2] = hough(data1,'RhoResolution',1);
+subplot(2,3,5)
+imshow(H2,[],'XData',T2,'YData',R2,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P1 = houghpeaks(H2,5,'threshold',ceil(0.3*max(H2(:))));
+x = T2(P1(:,2)); y = R2(P1(:,1));
+plot(x,y,'s','color','white');
+  
+lines1 = houghlines(data1,T2,R2,P1,'FillGap',5,'MinLength',7);
+subplot(2,3,6)
+imshow(data);title('间隔为1'), hold on
+max_len = 0;
+for k = 1:length(lines1)
+   xy = [lines1(k).point1; lines1(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines1(k).point1 - lines1(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end
+
+figure(2)
+subplot(2,3,1)
+imshow(data);title('test1原图');
+
+data2=edge(data,'Sobel');
+subplot(2,3,2)
+imshow(data2);title('Sobel算子边缘检测');
+
+[H3,T3,R3] = hough(data2,'RhoResolution',5);
+subplot(2,3,3)
+imshow(H3,[],'XData',T3,'YData',R3,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P2 = houghpeaks(H3,5,'threshold',ceil(0.3*max(H3(:))));
+x = T3(P2(:,2)); y = R3(P2(:,1));
+plot(x,y,'s','color','white');
+  
+lines2 = houghlines(data2,T3,R3,P2,'FillGap',5,'MinLength',7);
+subplot(2,3,4)
+imshow(data);title('间隔为5'), hold on
+max_len = 0;
+for k = 1:length(lines2)
+   xy = [lines2(k).point1; lines2(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines2(k).point1 - lines2(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end  
+
+[H4,T4,R4] = hough(data2,'RhoResolution',1);
+subplot(2,3,5)
+imshow(H4,[],'XData',T4,'YData',R4,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P3 = houghpeaks(H4,5,'threshold',ceil(0.3*max(H4(:))));
+x = T4(P3(:,2)); y = R4(P3(:,1));
+plot(x,y,'s','color','white');
+  
+lines3 = houghlines(data2,T4,R4,P3,'FillGap',5,'MinLength',7);
+subplot(2,3,6)
+imshow(data);title('间隔为1'), hold on
+max_len = 0;
+for k = 1:length(lines3)
+   xy = [lines3(k).point1; lines3(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines3(k).point1 - lines3(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end
+
+figure(3)
+subplot(2,3,1)
+imshow(data);title('test1原图');
+
+data3=edge(data,'Canny');
+subplot(2,3,2)
+imshow(data3);title('Canny算子边缘检测');
+
+[H5,T5,R5] = hough(data3,'RhoResolution',5);
+subplot(2,3,3)
+imshow(H5,[],'XData',T5,'YData',R5,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P4 = houghpeaks(H5,5,'threshold',ceil(0.3*max(H5(:))));
+x = T5(P4(:,2)); y = R5(P4(:,1));
+plot(x,y,'s','color','white');
+  
+lines4 = houghlines(data3,T5,R5,P4,'FillGap',5,'MinLength',7);
+subplot(2,3,4)
+imshow(data);title('间隔为5'), hold on
+max_len = 0;
+for k = 1:length(lines4)
+   xy = [lines4(k).point1; lines4(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines4(k).point1 - lines4(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end  
+
+[H6,T6,R6] = hough(data3,'RhoResolution',1);
+subplot(2,3,5)
+imshow(H6,[],'XData',T6,'YData',R6,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P5 = houghpeaks(H6,5,'threshold',ceil(0.3*max(H6(:))));
+x = T6(P5(:,2)); y = R6(P5(:,1));
+plot(x,y,'s','color','white');
+  
+lines5 = houghlines(data3,T6,R6,P5,'FillGap',5,'MinLength',7);
+subplot(2,3,6)
+imshow(data);title('间隔为1'), hold on
+max_len = 0;
+for k = 1:length(lines5)
+   xy = [lines5(k).point1; lines5(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines5(k).point1 - lines5(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%dbx3.m
+clear;
+clc;
+[data,count]=imread('test3.jpg');
+
+
+figure(1)
+
+subplot(2,3,1)
+imshow(data);title('test1原图');
+
+data1=edge(data,'Roberts');
+subplot(2,3,2)
+imshow(data1);title('Robert算子边缘检测');
+
+[H1,T1,R1] = hough(data1,'RhoResolution',5);
+subplot(2,3,3)
+imshow(H1,[],'XData',T1,'YData',R1,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P  = houghpeaks(H1,5,'threshold',ceil(0.3*max(H1(:))));
+x = T1(P(:,2)); y = R1(P(:,1));
+plot(x,y,'s','color','white');
+  
+lines = houghlines(data1,T1,R1,P,'FillGap',5,'MinLength',7);
+subplot(2,3,4)
+imshow(data);title('间隔为5'), hold on
+max_len = 0;
+for k = 1:length(lines)
+   xy = [lines(k).point1; lines(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines(k).point1 - lines(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end  
+
+[H2,T2,R2] = hough(data1,'RhoResolution',1);
+subplot(2,3,5)
+imshow(H2,[],'XData',T2,'YData',R2,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P1 = houghpeaks(H2,5,'threshold',ceil(0.3*max(H2(:))));
+x = T2(P1(:,2)); y = R2(P1(:,1));
+plot(x,y,'s','color','white');
+  
+lines1 = houghlines(data1,T2,R2,P1,'FillGap',5,'MinLength',7);
+subplot(2,3,6)
+imshow(data);title('间隔为1'), hold on
+max_len = 0;
+for k = 1:length(lines1)
+   xy = [lines1(k).point1; lines1(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines1(k).point1 - lines1(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end
+
+figure(2)
+subplot(2,3,1)
+imshow(data);title('test1原图');
+
+data2=edge(data,'Sobel');
+subplot(2,3,2)
+imshow(data2);title('Sobel算子边缘检测');
+
+[H3,T3,R3] = hough(data2,'RhoResolution',5);
+subplot(2,3,3)
+imshow(H3,[],'XData',T3,'YData',R3,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P2 = houghpeaks(H3,5,'threshold',ceil(0.3*max(H3(:))));
+x = T3(P2(:,2)); y = R3(P2(:,1));
+plot(x,y,'s','color','white');
+  
+lines2 = houghlines(data2,T3,R3,P2,'FillGap',5,'MinLength',7);
+subplot(2,3,4)
+imshow(data);title('间隔为5'), hold on
+max_len = 0;
+for k = 1:length(lines2)
+   xy = [lines2(k).point1; lines2(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines2(k).point1 - lines2(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end  
+
+[H4,T4,R4] = hough(data2,'RhoResolution',1);
+subplot(2,3,5)
+imshow(H4,[],'XData',T4,'YData',R4,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P3 = houghpeaks(H4,5,'threshold',ceil(0.3*max(H4(:))));
+x = T4(P3(:,2)); y = R4(P3(:,1));
+plot(x,y,'s','color','white');
+  
+lines3 = houghlines(data2,T4,R4,P3,'FillGap',5,'MinLength',7);
+subplot(2,3,6)
+imshow(data);title('间隔为1'), hold on
+max_len = 0;
+for k = 1:length(lines3)
+   xy = [lines3(k).point1; lines3(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines3(k).point1 - lines3(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end
+
+figure(3)
+subplot(2,3,1)
+imshow(data);title('test1原图');
+
+data3=edge(data,'Canny');
+subplot(2,3,2)
+imshow(data3);title('Canny算子边缘检测');
+
+[H5,T5,R5] = hough(data3,'RhoResolution',5);
+subplot(2,3,3)
+imshow(H5,[],'XData',T5,'YData',R5,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P4 = houghpeaks(H5,5,'threshold',ceil(0.3*max(H5(:))));
+x = T5(P4(:,2)); y = R5(P4(:,1));
+plot(x,y,'s','color','white');
+  
+lines4 = houghlines(data3,T5,R5,P4,'FillGap',5,'MinLength',7);
+subplot(2,3,4)
+imshow(data);title('间隔为5'), hold on
+max_len = 0;
+for k = 1:length(lines4)
+   xy = [lines4(k).point1; lines4(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines4(k).point1 - lines4(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end  
+
+[H6,T6,R6] = hough(data3,'RhoResolution',1);
+subplot(2,3,5)
+imshow(H6,[],'XData',T6,'YData',R6,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P5 = houghpeaks(H6,5,'threshold',ceil(0.3*max(H6(:))));
+x = T6(P5(:,2)); y = R6(P5(:,1));
+plot(x,y,'s','color','white');
+  
+lines5 = houghlines(data3,T6,R6,P5,'FillGap',5,'MinLength',7);
+subplot(2,3,6)
+imshow(data);title('间隔为1'), hold on
+max_len = 0;
+for k = 1:length(lines5)
+   xy = [lines5(k).point1; lines5(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines5(k).point1 - lines5(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%dbx4.m
+clear;
+clc;
+[data,count]=imread('test4.bmp');
+
+
+figure(1)
+
+subplot(2,3,1)
+imshow(data);title('test1原图');
+
+data1=edge(data,'Roberts');
+subplot(2,3,2)
+imshow(data1);title('Robert算子边缘检测');
+
+[H1,T1,R1] = hough(data1,'RhoResolution',5);
+subplot(2,3,3)
+imshow(H1,[],'XData',T1,'YData',R1,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P  = houghpeaks(H1,5,'threshold',ceil(0.3*max(H1(:))));
+x = T1(P(:,2)); y = R1(P(:,1));
+plot(x,y,'s','color','white');
+  
+lines = houghlines(data1,T1,R1,P,'FillGap',5,'MinLength',7);
+subplot(2,3,4)
+imshow(data);title('间隔为5'), hold on
+max_len = 0;
+for k = 1:length(lines)
+   xy = [lines(k).point1; lines(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines(k).point1 - lines(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end  
+
+[H2,T2,R2] = hough(data1,'RhoResolution',1);
+subplot(2,3,5)
+imshow(H2,[],'XData',T2,'YData',R2,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P1 = houghpeaks(H2,5,'threshold',ceil(0.3*max(H2(:))));
+x = T2(P1(:,2)); y = R2(P1(:,1));
+plot(x,y,'s','color','white');
+  
+lines1 = houghlines(data1,T2,R2,P1,'FillGap',5,'MinLength',7);
+subplot(2,3,6)
+imshow(data);title('间隔为1'), hold on
+max_len = 0;
+for k = 1:length(lines1)
+   xy = [lines1(k).point1; lines1(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines1(k).point1 - lines1(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end
+
+figure(2)
+subplot(2,3,1)
+imshow(data);title('test1原图');
+
+data2=edge(data,'Sobel');
+subplot(2,3,2)
+imshow(data2);title('Sobel算子边缘检测');
+
+[H3,T3,R3] = hough(data2,'RhoResolution',5);
+subplot(2,3,3)
+imshow(H3,[],'XData',T3,'YData',R3,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P2 = houghpeaks(H3,5,'threshold',ceil(0.3*max(H3(:))));
+x = T3(P2(:,2)); y = R3(P2(:,1));
+plot(x,y,'s','color','white');
+  
+lines2 = houghlines(data2,T3,R3,P2,'FillGap',5,'MinLength',7);
+subplot(2,3,4)
+imshow(data);title('间隔为5'), hold on
+max_len = 0;
+for k = 1:length(lines2)
+   xy = [lines2(k).point1; lines2(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines2(k).point1 - lines2(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end  
+
+[H4,T4,R4] = hough(data2,'RhoResolution',1);
+subplot(2,3,5)
+imshow(H4,[],'XData',T4,'YData',R4,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P3 = houghpeaks(H4,5,'threshold',ceil(0.3*max(H4(:))));
+x = T4(P3(:,2)); y = R4(P3(:,1));
+plot(x,y,'s','color','white');
+  
+lines3 = houghlines(data2,T4,R4,P3,'FillGap',5,'MinLength',7);
+subplot(2,3,6)
+imshow(data);title('间隔为1'), hold on
+max_len = 0;
+for k = 1:length(lines3)
+   xy = [lines3(k).point1; lines3(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines3(k).point1 - lines3(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end
+
+figure(3)
+subplot(2,3,1)
+imshow(data);title('test1原图');
+
+data3=edge(data,'Canny');
+subplot(2,3,2)
+imshow(data3);title('Canny算子边缘检测');
+
+[H5,T5,R5] = hough(data3,'RhoResolution',5);
+subplot(2,3,3)
+imshow(H5,[],'XData',T5,'YData',R5,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P4 = houghpeaks(H5,5,'threshold',ceil(0.3*max(H5(:))));
+x = T5(P4(:,2)); y = R5(P4(:,1));
+plot(x,y,'s','color','white');
+  
+lines4 = houghlines(data3,T5,R5,P4,'FillGap',5,'MinLength',7);
+subplot(2,3,4)
+imshow(data);title('间隔为5'), hold on
+max_len = 0;
+for k = 1:length(lines4)
+   xy = [lines4(k).point1; lines4(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines4(k).point1 - lines4(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end  
+
+[H6,T6,R6] = hough(data3,'RhoResolution',1);
+subplot(2,3,5)
+imshow(H6,[],'XData',T6,'YData',R6,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P5 = houghpeaks(H6,5,'threshold',ceil(0.3*max(H6(:))));
+x = T6(P5(:,2)); y = R6(P5(:,1));
+plot(x,y,'s','color','white');
+  
+lines5 = houghlines(data3,T6,R6,P5,'FillGap',5,'MinLength',7);
+subplot(2,3,6)
+imshow(data);title('间隔为1'), hold on
+max_len = 0;
+for k = 1:length(lines5)
+   xy = [lines5(k).point1; lines5(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines5(k).point1 - lines5(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%dbx5.m
+clear;
+clc;
+[data,count]=imread('test5.png');
+
+
+figure(1)
+
+subplot(2,3,1)
+imshow(data);title('test1原图');
+
+data1=edge(data,'Roberts');
+subplot(2,3,2)
+imshow(data1);title('Robert算子边缘检测');
+
+[H1,T1,R1] = hough(data1,'RhoResolution',5);
+subplot(2,3,3)
+imshow(H1,[],'XData',T1,'YData',R1,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P  = houghpeaks(H1,5,'threshold',ceil(0.3*max(H1(:))));
+x = T1(P(:,2)); y = R1(P(:,1));
+plot(x,y,'s','color','white');
+  
+lines = houghlines(data1,T1,R1,P,'FillGap',5,'MinLength',7);
+subplot(2,3,4)
+imshow(data);title('间隔为5'), hold on
+max_len = 0;
+for k = 1:length(lines)
+   xy = [lines(k).point1; lines(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines(k).point1 - lines(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end  
+
+[H2,T2,R2] = hough(data1,'RhoResolution',1);
+subplot(2,3,5)
+imshow(H2,[],'XData',T2,'YData',R2,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P1 = houghpeaks(H2,5,'threshold',ceil(0.3*max(H2(:))));
+x = T2(P1(:,2)); y = R2(P1(:,1));
+plot(x,y,'s','color','white');
+  
+lines1 = houghlines(data1,T2,R2,P1,'FillGap',5,'MinLength',7);
+subplot(2,3,6)
+imshow(data);title('间隔为1'), hold on
+max_len = 0;
+for k = 1:length(lines1)
+   xy = [lines1(k).point1; lines1(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines1(k).point1 - lines1(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end
+
+figure(2)
+subplot(2,3,1)
+imshow(data);title('test1原图');
+
+data2=edge(data,'Sobel');
+subplot(2,3,2)
+imshow(data2);title('Sobel算子边缘检测');
+
+[H3,T3,R3] = hough(data2,'RhoResolution',5);
+subplot(2,3,3)
+imshow(H3,[],'XData',T3,'YData',R3,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P2 = houghpeaks(H3,5,'threshold',ceil(0.3*max(H3(:))));
+x = T3(P2(:,2)); y = R3(P2(:,1));
+plot(x,y,'s','color','white');
+  
+lines2 = houghlines(data2,T3,R3,P2,'FillGap',5,'MinLength',7);
+subplot(2,3,4)
+imshow(data);title('间隔为5'), hold on
+max_len = 0;
+for k = 1:length(lines2)
+   xy = [lines2(k).point1; lines2(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines2(k).point1 - lines2(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end  
+
+[H4,T4,R4] = hough(data2,'RhoResolution',1);
+subplot(2,3,5)
+imshow(H4,[],'XData',T4,'YData',R4,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P3 = houghpeaks(H4,5,'threshold',ceil(0.3*max(H4(:))));
+x = T4(P3(:,2)); y = R4(P3(:,1));
+plot(x,y,'s','color','white');
+  
+lines3 = houghlines(data2,T4,R4,P3,'FillGap',5,'MinLength',7);
+subplot(2,3,6)
+imshow(data);title('间隔为1'), hold on
+max_len = 0;
+for k = 1:length(lines3)
+   xy = [lines3(k).point1; lines3(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines3(k).point1 - lines3(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end
+
+figure(3)
+subplot(2,3,1)
+imshow(data);title('test1原图');
+
+data3=edge(data,'Canny');
+subplot(2,3,2)
+imshow(data3);title('Canny算子边缘检测');
+
+[H5,T5,R5] = hough(data3,'RhoResolution',5);
+subplot(2,3,3)
+imshow(H5,[],'XData',T5,'YData',R5,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P4 = houghpeaks(H5,5,'threshold',ceil(0.3*max(H5(:))));
+x = T5(P4(:,2)); y = R5(P4(:,1));
+plot(x,y,'s','color','white');
+  
+lines4 = houghlines(data3,T5,R5,P4,'FillGap',5,'MinLength',7);
+subplot(2,3,4)
+imshow(data);title('间隔为5'), hold on
+max_len = 0;
+for k = 1:length(lines4)
+   xy = [lines4(k).point1; lines4(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines4(k).point1 - lines4(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end  
+
+[H6,T6,R6] = hough(data3,'RhoResolution',1);
+subplot(2,3,5)
+imshow(H6,[],'XData',T6,'YData',R6,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P5 = houghpeaks(H6,5,'threshold',ceil(0.3*max(H6(:))));
+x = T6(P5(:,2)); y = R6(P5(:,1));
+plot(x,y,'s','color','white');
+  
+lines5 = houghlines(data3,T6,R6,P5,'FillGap',5,'MinLength',7);
+subplot(2,3,6)
+imshow(data);title('间隔为1'), hold on
+max_len = 0;
+for k = 1:length(lines5)
+   xy = [lines5(k).point1; lines5(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines5(k).point1 - lines5(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%dbx6.m
+clear;
+clc;
+[data,count]=imread('test6.jpg');
+
+
+figure(1)
+
+subplot(2,3,1)
+imshow(data);title('test1原图');
+
+data1=edge(data,'Roberts');
+subplot(2,3,2)
+imshow(data1);title('Robert算子边缘检测');
+
+[H1,T1,R1] = hough(data1,'RhoResolution',5);
+subplot(2,3,3)
+imshow(H1,[],'XData',T1,'YData',R1,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P  = houghpeaks(H1,5,'threshold',ceil(0.3*max(H1(:))));
+x = T1(P(:,2)); y = R1(P(:,1));
+plot(x,y,'s','color','white');
+  
+lines = houghlines(data1,T1,R1,P,'FillGap',5,'MinLength',7);
+subplot(2,3,4)
+imshow(data);title('间隔为5'), hold on
+max_len = 0;
+for k = 1:length(lines)
+   xy = [lines(k).point1; lines(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines(k).point1 - lines(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end  
+
+[H2,T2,R2] = hough(data1,'RhoResolution',1);
+subplot(2,3,5)
+imshow(H2,[],'XData',T2,'YData',R2,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P1 = houghpeaks(H2,5,'threshold',ceil(0.3*max(H2(:))));
+x = T2(P1(:,2)); y = R2(P1(:,1));
+plot(x,y,'s','color','white');
+  
+lines1 = houghlines(data1,T2,R2,P1,'FillGap',5,'MinLength',7);
+subplot(2,3,6)
+imshow(data);title('间隔为1'), hold on
+max_len = 0;
+for k = 1:length(lines1)
+   xy = [lines1(k).point1; lines1(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines1(k).point1 - lines1(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end
+
+figure(2)
+subplot(2,3,1)
+imshow(data);title('test1原图');
+
+data2=edge(data,'Sobel');
+subplot(2,3,2)
+imshow(data2);title('Sobel算子边缘检测');
+
+[H3,T3,R3] = hough(data2,'RhoResolution',5);
+subplot(2,3,3)
+imshow(H3,[],'XData',T3,'YData',R3,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P2 = houghpeaks(H3,5,'threshold',ceil(0.3*max(H3(:))));
+x = T3(P2(:,2)); y = R3(P2(:,1));
+plot(x,y,'s','color','white');
+  
+lines2 = houghlines(data2,T3,R3,P2,'FillGap',5,'MinLength',7);
+subplot(2,3,4)
+imshow(data);title('间隔为5'), hold on
+max_len = 0;
+for k = 1:length(lines2)
+   xy = [lines2(k).point1; lines2(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines2(k).point1 - lines2(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end  
+
+[H4,T4,R4] = hough(data2,'RhoResolution',1);
+subplot(2,3,5)
+imshow(H4,[],'XData',T4,'YData',R4,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P3 = houghpeaks(H4,5,'threshold',ceil(0.3*max(H4(:))));
+x = T4(P3(:,2)); y = R4(P3(:,1));
+plot(x,y,'s','color','white');
+  
+lines3 = houghlines(data2,T4,R4,P3,'FillGap',5,'MinLength',7);
+subplot(2,3,6)
+imshow(data);title('间隔为1'), hold on
+max_len = 0;
+for k = 1:length(lines3)
+   xy = [lines3(k).point1; lines3(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines3(k).point1 - lines3(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end
+
+figure(3)
+subplot(2,3,1)
+imshow(data);title('test1原图');
+
+data3=edge(data,'Canny');
+subplot(2,3,2)
+imshow(data3);title('Canny算子边缘检测');
+
+[H5,T5,R5] = hough(data3,'RhoResolution',5);
+subplot(2,3,3)
+imshow(H5,[],'XData',T5,'YData',R5,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P4 = houghpeaks(H5,5,'threshold',ceil(0.3*max(H5(:))));
+x = T5(P4(:,2)); y = R5(P4(:,1));
+plot(x,y,'s','color','white');
+  
+lines4 = houghlines(data3,T5,R5,P4,'FillGap',5,'MinLength',7);
+subplot(2,3,4)
+imshow(data);title('间隔为5'), hold on
+max_len = 0;
+for k = 1:length(lines4)
+   xy = [lines4(k).point1; lines4(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines4(k).point1 - lines4(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end  
+
+[H6,T6,R6] = hough(data3,'RhoResolution',1);
+subplot(2,3,5)
+imshow(H6,[],'XData',T6,'YData',R6,...
+            'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on, axis normal, hold on;
+P5 = houghpeaks(H6,5,'threshold',ceil(0.3*max(H6(:))));
+x = T6(P5(:,2)); y = R6(P5(:,1));
+plot(x,y,'s','color','white');
+  
+lines5 = houghlines(data3,T6,R6,P5,'FillGap',5,'MinLength',7);
+subplot(2,3,6)
+imshow(data);title('间隔为1'), hold on
+max_len = 0;
+for k = 1:length(lines5)
+   xy = [lines5(k).point1; lines5(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines5(k).point1 - lines5(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
+end
